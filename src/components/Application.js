@@ -42,12 +42,12 @@ export default function Application(props) {
   const [days, setDays] = useState([]);
   
   useEffect(() => {
-    axios.get('http://localhost:8001/api/days')
+    axios.get('/api/days')
       .then(response => {
         console.log(response.data);
         setDays(response.data)
       })
-  } , [day]);
+  } , []);
   
   const rendorAppointments = appointments.map(appointment => {
     return <Appointment key={appointment.id} {...appointment} />
