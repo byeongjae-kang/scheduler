@@ -1,57 +1,33 @@
 import React, { useState, useEffect } from "react";
-
 import "components/Application.scss";
 import DayList from "./DayList";
 import Appointment from "./Appointment/index";
 import axios from 'axios';
-
-const appointments = [
-  {
-    id: 1,
-    time: "12pm",
-  },
-  {
-    id: 2,
-    time: "1pm",
-    interview: {
-      student: "Lydia Miller-Jones",
-      interviewer: {
-        id: 1,
-        name: "Sylvia Palmer",
-        avatar: "https://i.imgur.com/LpaY82x.png",
-      }
-    }
-  },
-  {
-    id: 3,
-    time: "3pm",
-    interview: { 
-      student: "Lydia Miller-Jones", 
-      interviewer: { 
-        id: 5, 
-        name: "Sven Jones",
-        avatar: "https://i.imgur.com/twYrpay.jpg" 
-      } 
-    }
-  }
-];
+import { getAppointmentsForDay } from "helpers/selectors";
 
 
 export default function Application(props) {
-  const [day, setDay] = useState("Monday");
-  const [days, setDays] = useState([]);
-  
-  useEffect(() => {
-    axios.get('/api/days')
-      .then(response => {
-        console.log(response.data);
-        setDays(response.data)
-      })
-  } , []);
-  
-  const rendorAppointments = appointments.map(appointment => {
+  const [state, setState] = useState({
+    day: "Monday",
+    days: [],
+    appointments: {}
+  });
+
+  const dailyAppointments = getAppointmentsForDay(state, state.day).map(appointment => {
     return <Appointment key={appointment.id} {...appointment} />
   })
+
+  const setDay = day => setState({ ...state, day });
+
+  useEffect(() => {
+    Promise.all([
+      axios.get('/api/days'),
+      axios.get('/api/appointments'),
+      axios.get('/api/interviewers')
+    ]).then((all) => {
+      setState(prev => ({...prev, days: all[0].data, appointments: all[1].data, interviewers: all[2].data}));
+    })
+  } , []);
   
   return (
     <main className="layout">
@@ -65,10 +41,10 @@ export default function Application(props) {
         <hr className="sidebar__separator sidebar--centered" />
         <nav className="sidebar__menu">
           <DayList
-            days={days}
-            day={day}
+            days={state.days}
+            day={state.day}
             setDay={setDay}
-          />
+          /> 
         </nav>
         <img
           className="sidebar__lhl sidebar--centered"
@@ -77,7 +53,7 @@ export default function Application(props) {
         />
       </section>
       <section className="schedule">
-        {rendorAppointments/* Replace this with the schedule elements durint the "The Scheduler" activity. */}
+        {dailyAppointments}
         <Appointment key="last" time="5pm" />
       </section>
     </main>
