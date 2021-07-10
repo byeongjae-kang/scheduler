@@ -26,15 +26,19 @@ export default function Appointment(props) {
     props.interview ? SHOW : EMPTY
   );
   function save(name, interviewer) {
-    const interview = {
-      student: name,
-      interviewer
-    };
-    transition(SAVING);
-    props
-      .bookInterview(props.id, interview)
-      .then(() => transition(SHOW))
-      .catch(error => transition(ERROR_SAVE, true));
+    if (name && interviewer) {
+      const interview = {
+        student: name,
+        interviewer
+      };
+      transition(SAVING);
+      props
+        .bookInterview(props.id, interview)
+        .then(() => transition(SHOW))
+        .catch(error => transition(ERROR_SAVE, true));
+    } else {
+      transition(ERROR_SAVE)
+    }
   }
 
   function onConfirm() {
@@ -66,7 +70,7 @@ export default function Appointment(props) {
         <Form
           interviewers={props.interviewers}
           onSave={save}
-          onCancel={() => back()}
+          onCancel={back}
         />
       )}
       {mode === EDIT && (
@@ -75,14 +79,14 @@ export default function Appointment(props) {
           interviewers={props.interviewers}
           interviewer={props.interview.interviewer.id}
           onSave={save}
-          onCancel={() => back()}
+          onCancel={back}
         />
       )}
       {mode === CONFIRM && (
         <Confirm
           message="Delete the appointment?"
           onConfirm={onConfirm}
-          onCancel={() => { back() }}
+          onCancel={back}
         />
       )}
       {(mode === SAVING || mode === DELETE) && (
@@ -93,7 +97,7 @@ export default function Appointment(props) {
        {(mode === ERROR_SAVE || mode === ERROR_DELETE) && (
         <Error
           message={`Could not ${mode === ERROR_SAVE ? "save" : "delete"} appointment`}
-          onClose={() => back()}
+          onClose={back}
         />
       )}
 
