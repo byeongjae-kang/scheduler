@@ -4,7 +4,7 @@ import useVisualMode from "hooks/useVisualMode";
 
 const FIRST = "FIRST";
 const SECOND = "SECOND";
-const THIRD = "THIRD"
+const THIRD = "THIRD";
 
 test("useVisualMode should replace the current mode", () => {
   const { result } = renderHook(() => useVisualMode(FIRST));
