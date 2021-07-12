@@ -11,18 +11,17 @@ export default function useApplicationData() {
       case SET_DAY:
         return {
           ...state,
-          ...action.value /* insert logic */,
+          ...action.value,
         };
       case SET_APPLICATION_DATA:
         return {
           ...state,
-          ...action.value /* insert logic */,
+          ...action.value,
         };
       case SET_INTERVIEW:
         return {
           ...state,
           ...action.value,
-          /* insert logic */
         };
       default:
         throw new Error(
@@ -59,12 +58,10 @@ export default function useApplicationData() {
 
     return axios.put(`/api/appointments/${id}`, appointment).then(() => {
       return axios.get("/api/days").then((res) => {
-        dispatch(
-          {
-            type: SET_INTERVIEW,
-            value: { appointments, days: res.data },
-          }
-        );
+        dispatch({
+          type: SET_INTERVIEW,
+          value: { appointments, days: res.data },
+        });
       });
     });
   };
