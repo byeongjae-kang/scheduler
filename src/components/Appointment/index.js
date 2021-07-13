@@ -24,7 +24,6 @@ export default function Appointment(props) {
     props.interview ? SHOW : EMPTY
   );
   const save = (name, interviewer) => {
-    // if (name && interviewer) {
     const interview = {
       student: name,
       interviewer,
@@ -34,7 +33,6 @@ export default function Appointment(props) {
       .bookInterview(props.id, interview)
       .then(() => transition(SHOW))
       .catch((error) => transition(ERROR_SAVE, true));
-    // }
   };
 
   const onConfirm = () => {
