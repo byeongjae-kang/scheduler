@@ -16,36 +16,36 @@ const fixtures = {
     }
   ],
   appointments: {
-    "1": { id: 1, time: "12pm", interview: null },
-    "2": {
+    1: { id: 1, time: "12pm", interview: null },
+    2: {
       id: 2,
       time: "1pm",
       interview: { student: "Archie Cohen", interviewer: 2 }
     },
-    "3": {
+    3: {
       id: 3,
       time: "2pm",
       interview: { student: "Leopold Silvers", interviewer: 4 }
     },
-    "4": { id: 4, time: "3pm", interview: null }
+    4: { id: 4, time: "3pm", interview: null }
   },
   interviewers: {
-    "1": {
+    1: {
       id: 1,
       name: "Sylvia Palmer",
       avatar: "https://i.imgur.com/LpaY82x.png"
     },
-    "2": {
+    2: {
       id: 2,
       name: "Tori Malcolm",
       avatar: "https://i.imgur.com/Nmx0Qxo.png"
     },
-    "3": {
+    3: {
       id: 3,
       name: "Mildred Nazir",
       avatar: "https://i.imgur.com/T2WwVfS.png"
     },
-    "4": {
+    4: {
       id: 4,
       name: "Cohana Roy",
       avatar: "https://i.imgur.com/FK8V841.jpg"
@@ -55,7 +55,7 @@ const fixtures = {
 
 export default {
   defaults: { baseURL: "" },
-  get: jest.fn(url => {
+  get: jest.fn((url) => {
     if (url === "/api/days") {
       return Promise.resolve({
         status: 200,
@@ -65,7 +65,6 @@ export default {
     }
 
     if (url === "/api/appointments") {
-      
       return Promise.resolve({
         status: 200,
         statusText: "OK",
@@ -74,12 +73,15 @@ export default {
     }
 
     if (url === "/api/interviewers") {
-      
       return Promise.resolve({
         status: 200,
         statusText: "OK",
         data: fixtures.interviewers
       });
     }
+  }),
+  put: jest.fn((url) => {
+    fixtures.days[0].spots -= 1;
+    return Promise.resolve({ status: 204, statusText: "No Content" });
   })
-}
+};
