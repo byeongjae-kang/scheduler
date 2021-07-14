@@ -10,7 +10,7 @@ import {
   getByPlaceholderText,
   getAllByTestId,
   queryByText,
-  queryByAltText,
+  queryByAltText
 } from "@testing-library/react";
 import axios from "axios";
 
