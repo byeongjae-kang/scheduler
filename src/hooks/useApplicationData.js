@@ -24,9 +24,7 @@ export default function useApplicationData() {
           ...action.value
         };
       default:
-        throw new Error(
-          `Tried to reduce with unsupported action type: ${action.type}`
-        );
+        throw new Error(`Tried to reduce with unsupported action type: ${action.type}`);
     }
   }
 
@@ -38,30 +36,36 @@ export default function useApplicationData() {
   });
 
   const cancelInterview = (id) => {
-    return axios
-      .delete(`/api/appointments/${id}`)
-      .then(() =>
-        axios
-          .get("/api/days")
-          .then((res) =>
-            dispatch({ type: SET_INTERVIEW, value: { days: res.data } })
-          )
-      );
+    const appointment = { ...state.appointments[id], interview: null };
+    const appointments = { ...state.appointments, [id]: appointment };
+
+    const day = [...state.days].find((item) => item.appointments.includes(id));
+    const availableSpots = day.appointments.filter((id) => !appointments[id].interview);
+    const days = [...state.days];
+
+    day.spots = availableSpots.length;
+    days[day.id - 1] = day;
+
+    return axios.delete(`/api/appointments/${id}`).then(() => {
+      dispatch({ type: SET_INTERVIEW, value: { appointments, days } });
+    });
   };
 
   const bookInterview = (id, interview) => {
-    const appointment = {
-      ...state.appointments[id],
-      interview: { ...interview }
-    };
+    const appointment = { ...state.appointments[id], interview: { ...interview } };
     const appointments = { ...state.appointments, [id]: appointment };
 
+    const day = [...state.days].find((item) => item.appointments.includes(id));
+    const availableSpots = day.appointments.filter((id) => !appointments[id].interview);
+    const days = [...state.days];
+
+    day.spots = availableSpots.length;
+    days[day.id - 1] = day;
+
     return axios.put(`/api/appointments/${id}`, appointment).then(() => {
-      return axios.get("/api/days").then((res) => {
-        dispatch({
-          type: SET_INTERVIEW,
-          value: { appointments, days: res.data }
-        });
+      dispatch({
+        type: SET_INTERVIEW,
+        value: { appointments, days }
       });
     });
   };
