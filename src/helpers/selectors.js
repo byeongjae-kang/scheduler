@@ -4,9 +4,7 @@ export const getAppointmentsForDay = (state, day) => {
   state.days
     .filter((aDay) => aDay.name === day)
     .forEach((aDay) =>
-      aDay.appointments.forEach((id) =>
-        appointments.push(state.appointments[id])
-      )
+      aDay.appointments.forEach((id) => appointments.push(state.appointments[id]))
     );
 
   return appointments;
@@ -28,9 +26,7 @@ export const getInterviewersForDay = (state, day) => {
   state.days
     .filter((aDay) => aDay.name === day)
     .forEach((aDay) =>
-      aDay.interviewers.forEach((id) =>
-        interviewers.push(state.interviewers[id])
-      )
+      aDay.interviewers.forEach((id) => interviewers.push(state.interviewers[id]))
     );
 
   return interviewers;
