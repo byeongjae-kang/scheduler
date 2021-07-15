@@ -2,7 +2,7 @@
 
 This scheduler is a singe-page app built with react. (front-end only)
 
-Please visit !['here'](https://github.com/byeongjae-kang/scheduler-api) for back-end.
+Please visit ['here'](https://github.com/byeongjae-kang/scheduler-api) for back-end.
 
 ## Final Product
 
