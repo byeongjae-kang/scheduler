@@ -1,23 +1,48 @@
 # Interview Scheduler
 
-## Setup
+This scheduler is a singe-page app built with react. (front-end only)
 
-Install dependencies with `npm install`.
+Please visit !['here'](https://github.com/byeongjae-kang/scheduler-api) for back-end.
 
-## Running Webpack Development Server
+## Final Product
 
-```sh
-npm start
-```
+!["Booking View"](https://github.com/byeongjae-kang/scheduler/blob/master/docs/booking.png)
+!["Registered Interviews"](https://github.com/byeongjae-kang/scheduler/blob/master/docs/interview%20registered.png)
+!["Confirm View for Cancellation"](https://github.com/byeongjae-kang/scheduler/blob/master/docs/confirmDelete.png)
 
-## Running Jest Test Framework
+## Dependencies
 
-```sh
-npm test
-```
+- axios
+- react
+- react-dom
+- react-scripts
+- react-test-renderer
+- babel-loader
+- @babel/core
+- @storybook/addon-actions
+- @storybook/addon-backgrounds
+- @storybook/addon-links
+- @storybook/addons
+- @storybook/react
+- @testing-library/jest
+- @testing-library/react
+- @testing-library/react-hooks
+- classnames
+- normalize.css
+- node-sass
+- prop-types
 
-## Running Storybook Visual Testbed
+## Getting Started
 
-```sh
-npm run storybook
-```
+### Setup
+Install dependencies using the `npm install` command.
+
+### Running Webpack Development Server
+Start the webpack development server using the `npm start` command. The app will be served at <http://localhost:8000/>
+
+### Running Jest Test Framework
+Start jest test using the `npm test` command.
+
+### Running Storybook Visual Testbed
+Start storybook using the `npm run storybook` command.
+
