@@ -2,11 +2,13 @@ import axios from "axios";
 import { useEffect, useReducer } from "react";
 
 export default function useApplicationData() {
+  //types for reducer
   const SET_DAY = "SET_DAY";
   const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
   const SET_INTERVIEW = "SET_INTERVIEW";
 
-  function reducer(state, action) {
+  //reducer to update state
+  const reducer = (state, action) => {
     switch (action.type) {
       case SET_DAY:
         return {
@@ -28,6 +30,7 @@ export default function useApplicationData() {
     }
   }
 
+  //hook
   const [state, dispatch] = useReducer(reducer, {
     day: "Monday",
     days: [],
@@ -35,6 +38,7 @@ export default function useApplicationData() {
     interviewers: {}
   });
 
+  //update hook state and send delete request to server
   const cancelInterview = (id) => {
     const appointment = { ...state.appointments[id], interview: null };
     const appointments = { ...state.appointments, [id]: appointment };
@@ -51,6 +55,7 @@ export default function useApplicationData() {
     });
   };
 
+  //update hook state and send put request to server
   const bookInterview = (id, interview) => {
     const appointment = { ...state.appointments[id], interview: { ...interview } };
     const appointments = { ...state.appointments, [id]: appointment };
@@ -70,8 +75,10 @@ export default function useApplicationData() {
     });
   };
 
+  //update hook state
   const setDay = (day) => dispatch({ type: SET_DAY, value: { day } });
 
+  //send get request to server and update hook state with data received
   useEffect(() => {
     Promise.all([
       axios.get("/api/days"),

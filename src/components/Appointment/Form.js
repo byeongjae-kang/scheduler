@@ -3,20 +3,24 @@ import Button from "../Button";
 import InterviewerList from "../InterviewerList";
 
 export default function Form(props) {
+  //hooks
   const [name, setName] = useState(props.name || "");
   const [error, setError] = useState("");
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
 
+  //set state to default value
   const reset = () => {
     setName("");
     setInterviewer(null);
   };
 
+  //call reset function above and remove the last mode 
   const cancel = () => {
     reset();
     props.onCancel();
   };
 
+  //send error message if name is not entered or interviewer is not selected, otherwise update database and state
   function validate() {
     if (name === "") {
       setError("Student name cannot be blank");

@@ -9,18 +9,22 @@ import Confirm from "./Confirm";
 import useVisualMode from "hooks/useVisualMode";
 import Error from "./Error";
 
-const EMPTY = "EMPTY";
+//modes used to let dom know what to render
 const SHOW = "SHOW";
+const EDIT = "EDIT";
+const EMPTY = "EMPTY";
 const CREATE = "CREATE";
 const SAVING = "SAVING";
 const DELETE = "DELETE";
 const CONFIRM = "CONFIRM";
-const EDIT = "EDIT";
 const ERROR_SAVE = "ERROR_SAVE";
 const ERROR_DELETE = "ERROR_DELETE";
 
 export default function Appointment(props) {
+  //add, remove, store, and replace modes
   const { mode, transition, back } = useVisualMode(props.interview ? SHOW : EMPTY);
+
+  //set state and mode, and call function to send put request to server
   const save = (name, interviewer) => {
     const interview = {
       student: name,
@@ -33,6 +37,7 @@ export default function Appointment(props) {
       .catch((error) => transition(ERROR_SAVE, true));
   };
 
+  //set state and mode, and call function to send delete request to server
   const onConfirm = () => {
     transition(DELETE);
     props
